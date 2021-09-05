@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bootapp-deployment
+spec:
+  template:
+    metadata:
+      name: bootapp
+      labels:
+        app: bootapp
+    spec:
+      containers:
+        - name: bootapp-container
+          image: myawesomeapps/bootapp:v5
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "250m" # 1/4 core
+            limits:
+              memory: "400Mi"
+              cpu: "1000m" # 1 core
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /alive
+            initialDelaySeconds: 10
+            periodSeconds: 3
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 2
+
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bootapp
