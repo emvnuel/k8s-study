@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-zedelivery
+spec:
+  selector:
+    matchLabels:
+      app: api-zedelivery
+  template:
+    metadata:
+      labels:
+        app: api-zedelivery
+    spec:
+      containers:
+      - name: api-zedelivery
+        image: localhost:32000/zedelivery-api
+        env:
+        - name: MONGO_HOST
+          value: mongo-svc
+        envFrom:
+        - configMapRef:
+            name: db-configmap
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 8080
