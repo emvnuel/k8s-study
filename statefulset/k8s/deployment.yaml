@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulapp
+spec:
+  serviceName: statefulapp-svc
+  selector:
+    matchLabels:
+      app: statefulapp
+  template:
+    metadata:
+      labels:
+        app: statefulapp
+    spec:
+      containers:
+      - name: statefulapp
+        image: localhost:32000/stateful-app
+        volumeMounts:
+          - mountPath: '/var/images'
+            name: 'images-volume'
+          - mountPath: '/var/h2-db'
+            name: 'db-volume'
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      volumes:
+      - name: images-volume
+        persistentVolumeClaim:
+          claimName: imagens-pvc
+      - name: db-volume
+        persistentVolumeClaim:
+          claimName: h2-pvc
+          
