@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statefulapp
+spec:
+  selector:
+    matchLabels:
+      app: statefulapp
+  template:
+    metadata:
+      labels:
+        app: statefulapp
+    spec:
+      containers:
+      - name: statefulapp
+        image: localhost:32000/stateful-app
+        volumeMounts:
+          - mountPath: '/var/images'
+            name: 'images-volume'
+          - mountPath: '/var/h2-db'
+            name: 'db-volume'
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      volumes:
+      - name: images-volume
+        hostPath:
+          path: /mnt/c/Users/emanuel.cerqueira/Desktop/statefulappimages
+          type: Directory
+      - name: db-volume
+        hostPath:
+          path: /mnt/c/Users/emanuel.cerqueira/Desktop/statefulappdb
+          type: Directory
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: statefulapp-svc
+spec:
+  type: NodePort
+  selector:
+    app: statefulapp
+  ports:
+  - port: 80
+    targetPort: 8080
+
+
