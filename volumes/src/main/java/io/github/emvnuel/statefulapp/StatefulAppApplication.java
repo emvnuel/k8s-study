@@ -23,7 +23,7 @@ public class StatefulAppApplication implements CommandLineRunner {
         if(bool){
             log.info("Folder is created successfully");
         }else{
-            log.error("Error Found!");
+            log.warn("Folder already exists or error");
         }
     }
 }

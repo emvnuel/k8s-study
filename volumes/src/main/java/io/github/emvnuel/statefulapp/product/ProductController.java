@@ -9,15 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.swing.text.html.parser.Entity;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,24 +41,26 @@ public class ProductController {
     }
 
     @SneakyThrows
+    @GetMapping
     public ResponseEntity<List<ProductResponse>> findAll() {
 
         List<Product> products = repository.findAll();
 
         List<ProductResponse> response = products.stream().map(p -> {
 
-            URL url = null;
             String base64 = null;
             try {
-                url = new URL("/var/images/" + p.getId());
-                BufferedImage image = ImageIO.read(url);
+                File file = new File("/var/images/" + p.getId()+".jpg");
+                BufferedImage image = ImageIO.read(file);
                 final ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ImageIO.write(image, "jpg", os);
                 base64 = Base64.getEncoder().encodeToString(os.toByteArray());
 
             } catch (Exception e) {
                 log.error("Error reading product image");
+                log.error("{}", e.getMessage());
             }
+
             return new ProductResponse(p.getId(),
                     p.getName(),
                     p.getDescription(),

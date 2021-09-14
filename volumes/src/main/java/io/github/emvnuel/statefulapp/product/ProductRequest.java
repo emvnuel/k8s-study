@@ -1,6 +1,5 @@
 package io.github.emvnuel.statefulapp.product;
 
-import io.github.emvnuel.statefulapp.product.Product;
 import lombok.Value;
 
 import javax.validation.constraints.NotEmpty;
