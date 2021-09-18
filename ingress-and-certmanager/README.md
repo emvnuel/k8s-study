@@ -1,14 +1,6 @@
-# Explana App
+## Useful links:
 
-## Screenshots
-![Screenshot 1](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_3.png)
+[NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
+[cert-manager ACME http01 challenge](https://cert-manager.io/docs/configuration/acme/http01/)
+[Let's Encrypt challenges type](https://letsencrypt.org/docs/challenge-types/)
 
-![Screenshot 2](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_2.png)
-
-![Screenshot 3](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_1.png)
-
-![Screenshot 4](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_4.png)
-
-![Screenshot 5](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_5.png)
-
-![Screenshot 6](https://raw.githubusercontent.com/emvnuel/explana-app/master/images/screenshot_6.png)
