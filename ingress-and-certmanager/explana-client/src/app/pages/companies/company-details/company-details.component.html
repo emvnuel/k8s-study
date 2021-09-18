@@ -1,0 +1,103 @@
+<div class="inner-content">
+
+<div class="bg">
+<nz-page-header class="site-page-header" [style]="{padding: 0}">
+
+  <!--avatar-->
+  <nz-avatar style="margin: 0; padding-left: 4px;" [routerLink]="['/companies', company?.id]" class="pointer" [nzSize]="200" nzShape="square" nz-page-header-avatar [nzSrc]="company?.imageUrl "></nz-avatar>
+
+  <!--title-->
+  <nz-page-header-title style="align-self: flex-end;margin-left: 0; background: white; padding: 1.5rem;" >
+    <h1 style="margin-bottom: .25rem;">{{company?.name}}</h1>
+    <span><i style="color: #FFD700;" nz-icon nzType="star" nzTheme="fill"></i> {{company?.rating}}</span>
+  </nz-page-header-title>
+
+  <!--content-->
+  <nz-page-header-content style="background: white">
+    <div nz-row>
+      <div class="content">
+        <p>{{company?.description}}</p>
+      </div>
+    </div>
+  </nz-page-header-content>
+</nz-page-header>
+</div>
+  <nz-tabset nzSize="large" [nzTabBarExtraContent]="extraTemplate">
+
+    <nz-tab nzTitle="Overview">
+
+      <nz-row [nzGutter]="[16, 16]" style="padding: 2rem;" >
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="'+1128'" [nzTitle]="'Employees'" [nzPrefix]="emp"></nz-statistic>
+          <ng-template #emp><i nz-icon nzType="team"></i></ng-template>
+        </nz-col>
+
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="formatter.format(company?.avgSalary!)" [nzTitle]="'Average salary'" [nzPrefix]="salary"></nz-statistic>
+          <ng-template #salary></ng-template>
+        </nz-col>
+
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="'New York, NY'" [nzTitle]="'Headquarters'" [nzPrefix]="head"></nz-statistic>
+          <ng-template #head><i nz-icon nzType="build"></i></ng-template>
+        </nz-col>
+
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="'$1B to $5B (U$D)'" [nzTitle]="'Revenue'" [nzPrefix]="revenue"></nz-statistic>
+          <ng-template #revenue><i nz-icon nzType="rise"></i></ng-template>
+        </nz-col>
+
+      </nz-row>
+
+    </nz-tab>
+
+    <nz-tab nzTitle="Salaries">
+      <ul style="list-style-type: none" nz-row [nzGutter]="[16, 16]">
+        <li nz-col [nzSpan]="8" *ngFor="let salary of salaries">
+          <nz-card [nzTitle]="titleTemplate">
+           <h3 style="margin: 0">{{this.formatter.format(salary.avgSalary)}}</h3>
+            <span style="color: rgba(0,0,0,.45);" nz-typography nzType="secondary">Average salary based upon {{salary.total}} salaries</span>
+          </nz-card>
+
+          <ng-template #titleTemplate>
+           <h3 style="margin: 0;">{{salary.job}}</h3>
+           <span style="color: rgba(0,0,0,.45);" nz-typography nzType="secondary">{{salary.jobLevel}}</span>
+          </ng-template>
+
+        </li>
+      </ul>
+
+    </nz-tab>
+
+    <nz-tab nzTitle="Reviews">
+
+      <ul style="list-style-type: none" nz-row [nzGutter]="[16, 16]" style="padding: 1rem 2rem;" >
+        <li nz-col [nzSpan]="12" *ngFor="let review of reviews">
+          <app-review [review]="review"></app-review>
+        </li>
+      </ul>
+
+      <div style="display: flex; justify-content: center;">
+        <p *ngIf="reviews.length == 0 && noReviews" style="align-self: center; font-size: 1.5rem;">There is no reviews yet :(</p>
+        <button *ngIf="reviews.length > 0" [disabled]="lastPage" (click)="findMoreReviews()" [nzLoading]="isLoadingReviews" nz-button [nzSize]="size" nzShape="round">
+          <i nz-icon nzType="plus"></i>
+          More
+        </button>
+      </div>
+
+    </nz-tab>
+
+    <nz-tab nzTitle="Jobs">
+      <div style="padding: 2rem;">Content of Tab Pane 2</div>
+    </nz-tab>
+
+  </nz-tabset>
+
+  <ng-template #extraTemplate>
+    <a [routerLink]="['/review-company', company?.id]"  nzType="primary" nzSize="large" nz-button>
+      <i nz-icon nzType="plus"></i>
+      Add review/salary
+    </a>
+  </ng-template>
+
+</div>
