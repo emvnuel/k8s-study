@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ponto-entrada-manha
+spec:
+  schedule: "0 9 * * 1-5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: ponto
+              image: myawesomeapps/totvs-ponto:2.0
+              envFrom:
+              - configMapRef:
+                  name: ponto-configmap
+          restartPolicy: OnFailure
+      backoffLimit: 1  
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ponto-saida-manha
+spec:
+  schedule: "0 12 * * 1-5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: ponto
+              image: myawesomeapps/totvs-ponto:2.0
+              envFrom:
+              - configMapRef:
+                  name: ponto-configmap
+          restartPolicy: OnFailure
+      backoffLimit: 1
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ponto-entrada-tarde
+spec:
+  schedule: "0 13 * * 1-5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: ponto
+              image: myawesomeapps/totvs-ponto:2.0
+              envFrom:
+              - configMapRef:
+                  name: ponto-configmap
+          restartPolicy: OnFailure
+      backoffLimit: 1
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ponto-saida-tarde
+spec:
+  schedule: "0 18 * * 1-5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: ponto
+              image: myawesomeapps/totvs-ponto:2.0
+              envFrom:
+              - configMapRef:
+                  name: ponto-configmap
+          restartPolicy: OnFailure
+      backoffLimit: 1      
